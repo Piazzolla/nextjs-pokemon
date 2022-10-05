@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const Layout: FC<Props> = ({ children, title }) => {
-    console.log(title);
+  //  console.log(title);
   return (
     <>
         <Head>
