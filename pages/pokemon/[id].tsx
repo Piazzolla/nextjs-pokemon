@@ -1,7 +1,9 @@
 import { Button, Card, Container, Grid, Image, Text } from "@nextui-org/react";
 import { GetStaticProps, NextPage, GetStaticPaths } from "next";
-import { pokeApi } from "../../api";
+
 import { Layout } from "../../components/layouts"
+import { localFavorites } from "../../utils";
+import { pokeApi } from "../../api";
 import { Pokemon } from "../../interfaces";
 
 
@@ -13,11 +15,17 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 
 
   //console.log(pokemon);
+  // console.log({ exiteWindow: typeof window});
+
+  //esto se invoca cuando se crea el componente en el front pero no en el back
+  const onToggleFavorite = () => {
+    localFavorites.toggleFavorite( pokemon.id )
+  }
 
 
 
   return (
-    <Layout title='Algun pokemon'>
+    <Layout title={ pokemon.name }>
       <Grid.Container css={{ marginTop: '5px' }} gap={2}>
         <Grid xs={12} sm={4}>
           <Card hoverable css={{ padding: '30px' }}>
@@ -38,6 +46,7 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
               <Button
                 color="gradient"
                 ghost
+                onClick={ onToggleFavorite }
               >
                 Guardar en favoritos
               </Button>
