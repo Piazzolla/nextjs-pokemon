@@ -5,6 +5,7 @@ import { Layout } from "../../components/layouts"
 import { localFavorites } from "../../utils";
 import { pokeApi } from "../../api";
 import { Pokemon } from "../../interfaces";
+import { useState, useEffect } from 'react';
 
 
 interface Props {
@@ -13,16 +14,15 @@ interface Props {
 
 const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 
-
-  //console.log(pokemon);
+  const [isInFavorites, setIsInFavorites] = useState( localFavorites.existInFavorites(pokemon.id))
+ 
   // console.log({ exiteWindow: typeof window});
 
   //esto se invoca cuando se crea el componente en el front pero no en el back
   const onToggleFavorite = () => {
     localFavorites.toggleFavorite( pokemon.id )
+    setIsInFavorites( !isInFavorites ); 
   }
-
-
 
   return (
     <Layout title={ pokemon.name }>
@@ -45,10 +45,10 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
               <Text h1 transform="capitalize">{pokemon.name} </Text>
               <Button
                 color="gradient"
-                ghost
+                ghost={ !isInFavorites }
                 onClick={ onToggleFavorite }
               >
-                Guardar en favoritos
+                { isInFavorites? 'En favoritos' : 'Guardar en favoritos'}
               </Button>
             </Card.Header>
             <Card.Body>
