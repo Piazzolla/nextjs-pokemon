@@ -121,18 +121,31 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
         params: { name }
       })),
       
-      fallback: false
+      fallback: "blocking"
     }
   }
   
   export const getStaticProps: GetStaticProps = async ({ params }) => {
     const { name } = params as { name: string }; 
 
-    return {
-      props: {
-        pokemon: await getPokemonInfo( name )
+    const pokemon = await getPokemonInfo( name );
+
+    if(!pokemon) {
+        return {
+          redirect: {
+            destination: '/',
+            permanent: false /* Puedo volver a esta pagina si eventualmente hacen el pokemon 3500 que me dio 404 */
+          }
+        }
       }
+
+      return {
+      props: {
+        pokemon
+      },
+      revalidate: 86400 // esta en segundos, 60 segs * 60 mins * 24 hs
     }
+
   
   }
   
