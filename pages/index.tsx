@@ -4,6 +4,7 @@ import { Layout } from '../components/layouts'
 import { pokeApi } from '../api';
 import { PokemonListResponse, SmallPokemon } from '../interfaces/pokemon-list';
 import { PokemonCard } from '../components/pokemon';
+import { useState } from 'react';
 
 
 interface Props {
@@ -13,6 +14,9 @@ interface Props {
 
 // title: Listado de Pokemons
 const HomePage: NextPage<Props> = ({ pokemons }) => {
+
+  const [pokes, setPokes] = useState(pokemons);
+
   return (
     <Layout title="Listado de Pokemon">
       <Grid.Container gap={2} justify='flex-start'>
